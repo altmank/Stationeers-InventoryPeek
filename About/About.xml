@@ -3,16 +3,42 @@
   <Name>Inventory Peek</Name>
   <Author>XCeled</Author>
   <Version>1.0.0</Version>
-  <Description>Keep every inventory window open without it covering the screen.
+  <Description>[h1]Keep your inventory open without it in the way[/h1]
+Mark the inventory windows you use most as hidable. They disappear while you play and come back the instant you hold [b]Alt[/b] to use the cursor, exactly where you left them. Leave everything open and still see the world.
 
-Click the eye on an inventory window's title bar to make that kind of window hidable. A hidable window disappears while you play and comes back the moment you hold Alt (the mouse-control key) to use the cursor, exactly where you left it. Click the eye again to keep it always visible.
+[hr][/hr]
+[h2]How it works[/h2]
+[list]
+[*]Every inventory window gets an [b]eye[/b] button on its title bar. Click it to make that window hidable; click it again to keep it always visible.
+[*]While the cursor is locked (normal play) a hidable window is invisible and clicks pass straight through it.
+[*]Hold [b]Alt[/b] (the mouse-control key), or open any screen that frees the cursor, and every hidden window shows at once, ready to use.
+[*]The choice is per window: hiding your backpack's window does not hide another backpack's. It is remembered across sessions.
+[*]A drag that starts while the cursor is free keeps the window up until you let go.
+[/list]
 
-The choice is remembered per kind of item (your hardsuit, your backpack, your mining belt), across sessions and when you swap to another item of the same kind.
+[hr][/hr]
+[h2]What it does not change[/h2]
+The windows stay open, docked or undocked, exactly as the game has them. Nothing is closed, moved or re-sorted, and slot hotkeys, sort, dock and close all work as usual. A hidden docked window keeps its place in the dock.
 
-Nothing about the windows themselves changes: they stay open, docked or undocked, as the game has them. Client side only; safe in multiplayer.
+The game's own [b]`[/b] key is different: it closes every window, and you reopen each one by hand.
 
-You need to install StationeersLaunchPad for this mod to work:
-https://github.com/StationeersLaunchPad/StationeersLaunchPad
+Client side only: nothing is sent over the network, so it is safe in multiplayer.
+
+[hr][/hr]
+[h2]Settings[/h2]
+In the mod's config ([i]net.xceled.stationeers.inventorypeek.cfg[/i]):
+[table]
+[tr][th]Setting[/th][th]Default[/th][th]What it does[/th][/tr]
+[tr][td]Enabled[/td][td]on[/td][td]Off shows every window as the game does.[/td][/tr]
+[tr][td]HiddenOpacity[/td][td]0[/td][td]How visible a hidden window stays: 0 is invisible, 0.2 leaves a faint outline.[/td][/tr]
+[tr][td]ToggleKey[/td][td]none[/td][td]Optional key that toggles the window under the cursor while Alt is held, instead of the eye.[/td][/tr]
+[tr][td]HidableWindows[/td][td]empty[/td][td]The windows you have marked. The eye button keeps it up to date.[/td][/tr]
+[/table]
+
+[hr][/hr]
+You need [url=https://github.com/StationeersLaunchPad/StationeersLaunchPad]StationeersLaunchPad[/url] for this mod to work.
+
+Source code: [url=https://github.com/altmank/Stationeers-InventoryPeek]github.com/altmank/Stationeers-InventoryPeek[/url]
   </Description>
   <Tags />
 </ModMetadata>
