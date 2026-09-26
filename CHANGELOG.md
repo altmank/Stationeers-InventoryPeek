@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.0
+
+- Tags are kept per save. Reference ids only mean something inside one save, so a window tagged in one save could
+  hide an unrelated window in another. Each world now has its own list, keyed by the world id the save stores. Tags
+  saved by 1.1 and earlier move into the first world you load.
+
 ## 1.1.0
 
 - Hidden windows show only while you hold the Mouse Control key (Alt unless rebound), not whenever the cursor is

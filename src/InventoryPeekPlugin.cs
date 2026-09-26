@@ -19,9 +19,10 @@ public class InventoryPeekPlugin : BaseUnityPlugin
 {
     public const string pluginGuid = "net.xceled.stationeers.inventorypeek";
     public const string pluginName = "InventoryPeek";
-    public const string pluginVersion = "1.1.0";
+    public const string pluginVersion = "1.2.0";
 
     private const char TagSeparator = ',';
+    private const string WorldsSection = "HidableWindows";
 
     internal static InventoryPeekPlugin Instance { get; private set; }
 
@@ -33,7 +34,14 @@ public class InventoryPeekPlugin : BaseUnityPlugin
 
     private float _lastPress = float.NegativeInfinity;
 
+    // The current world's tags. Reference ids are only unique within one save, so every world keeps its own list,
+    // keyed by the save's world id (World.CurrentId, a GUID the save stores).
     private readonly HashSet<string> _tags = new HashSet<string>(StringComparer.Ordinal);
+    private readonly Dictionary<string, ConfigEntry<string>> _worlds =
+        new Dictionary<string, ConfigEntry<string>>(StringComparer.Ordinal);
+
+    private string _worldId;
+    private ConfigEntry<string> _world;
 
     internal bool Enabled => _enabled.Value;
 
@@ -51,19 +59,17 @@ public class InventoryPeekPlugin : BaseUnityPlugin
             new ConfigDescription("Opacity of a tagged window while hidden: 0 is invisible, 0.2 a faint outline.",
                 new AcceptableValueRange<float>(0f, 1f)));
         _hidable = Config.Bind("General", "HidableWindows", string.Empty,
-            "Comma-separated reference ids of the things whose windows hide, one per window. " +
-            "The eye button on a window's title bar adds or removes its thing here.");
+            "Tags saved by 1.1 and earlier, for every world at once. Moved into the first world loaded, then emptied. " +
+            "Each world's tags are now in the [HidableWindows] section, one line per world id.");
         _toggleKey = Config.Bind("General", "ToggleKey", KeyCode.None,
             "Optional key that tags or untags the window under the cursor, as an alternative to the eye button. " +
             "Only acts while you hold the Mouse Control key.");
         _doublePress = Config.Bind("General", "DoublePressSeconds", 0.3f,
             new ConfigDescription("Two presses of the Mouse Control key within this many seconds latch hidden windows " +
                 "shown until the next double press. 0 turns the latch off.", new AcceptableValueRange<float>(0f, 1f)));
-        LoadTags();
-        _hidable.SettingChanged += (_, _) => LoadTags();
 
         new Harmony(pluginGuid).PatchAll(typeof(InventoryWindowPatch));
-        Logger.LogInfo($"{pluginName} {pluginVersion} loaded; {_tags.Count} hidable window(s).");
+        Logger.LogInfo($"{pluginName} {pluginVersion} loaded.");
     }
 
     private void Update()
@@ -100,11 +106,16 @@ public class InventoryPeekPlugin : BaseUnityPlugin
         _lastPress = now;
     }
 
-    internal bool IsHidable(string key) => key != null && _tags.Contains(key);
+    internal bool IsHidable(string key)
+    {
+        SyncWorld();
+        return key != null && _tags.Contains(key);
+    }
 
     internal void Toggle(string key)
     {
-        if (key == null)
+        SyncWorld();
+        if (key == null || _world == null)
         {
             return;
         }
@@ -116,13 +127,62 @@ public class InventoryPeekPlugin : BaseUnityPlugin
 
         List<string> sorted = new List<string>(_tags);
         sorted.Sort(StringComparer.Ordinal);
-        _hidable.Value = string.Join(TagSeparator.ToString(), sorted);
+        _world.Value = string.Join(TagSeparator.ToString(), sorted);
     }
 
-    private void LoadTags()
+    // Follows the loaded world. No world id (the main menu, a client before the host's world arrives) means no tags.
+    private void SyncWorld()
+    {
+        string id = Assets.Scripts.Objects.World.CurrentId;
+        if (string.Equals(id, _worldId, StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        _worldId = id;
+        _world = null;
+        _tags.Clear();
+        if (string.IsNullOrWhiteSpace(id))
+        {
+            return;
+        }
+
+        if (!_worlds.TryGetValue(id, out _world))
+        {
+            _world = Config.Bind(WorldsSection, id, string.Empty,
+                "Reference ids of the things whose windows hide in this world, comma-separated. The eye button edits it.");
+            _world.SettingChanged += (_, _) => ReadWorld();
+            _worlds[id] = _world;
+        }
+
+        MigrateLegacy();
+        ReadWorld();
+    }
+
+    // 1.1 and earlier kept one list for every world; it belongs to whichever world is loaded first.
+    private void MigrateLegacy()
+    {
+        if (string.IsNullOrWhiteSpace(_hidable.Value))
+        {
+            return;
+        }
+
+        _world.Value = string.IsNullOrWhiteSpace(_world.Value)
+            ? _hidable.Value
+            : _world.Value + TagSeparator + _hidable.Value;
+        _hidable.Value = string.Empty;
+        Logger.LogInfo($"Moved the tags saved by an older version into world {_worldId}.");
+    }
+
+    private void ReadWorld()
     {
         _tags.Clear();
-        foreach (string part in _hidable.Value.Split(TagSeparator))
+        if (_world == null)
+        {
+            return;
+        }
+
+        foreach (string part in _world.Value.Split(TagSeparator))
         {
             string key = part.Trim();
             if (key.Length > 0)

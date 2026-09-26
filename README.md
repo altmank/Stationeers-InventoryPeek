@@ -15,7 +15,10 @@ you hold Alt (the game's Mouse Control key). Keep every window open without it c
 
 - **Tags are per window.** A window is tagged by the reference id of the one thing it shows, which the save keeps,
   so the choice survives sessions and each window is chosen on its own: tagging one backpack's window does not
-  hide another backpack's. The list is the `HidableWindows` setting and can be edited by hand.
+  hide another backpack's. Reference ids only mean something inside one save, so each world keeps its own list,
+  keyed by the world id the save stores (`World.CurrentId`): the `[HidableWindows]` config section, one line per
+  world, which can be edited by hand. A copy of a save shares its world id and so its tags, which is right, since
+  its items keep their ids. Tags saved by 1.1 and earlier move into the first world loaded.
 - **Peeking** is holding the game's Mouse Control key (`KeyMap.MouseControl`, Alt unless rebound), read the way
   the game reads it (`MouseModeController.AltKeyDown`), so a rebind is followed. Screens that free the cursor on
   their own (menus, the scoreboard) do not show hidden windows: a stuck scoreboard once kept them all visible.
@@ -26,7 +29,8 @@ you hold Alt (the game's Mouse Control key). Keep every window open without it c
 | --- | --- | --- |
 | `Enabled` | true | Off shows every window as the game does. |
 | `HiddenOpacity` | 0 | Opacity of a hidden window; 0.2 leaves a faint outline. |
-| `HidableWindows` | empty | Comma-separated reference ids of the things whose windows hide. The eye button edits it. |
+| `[HidableWindows]` `<world id>` | empty | Per world: comma-separated reference ids of the things whose windows hide. The eye button edits it. |
+| `HidableWindows` (General) | empty | Tags from 1.1 and earlier; moved into the first world loaded, then emptied. |
 | `DoublePressSeconds` | 0.3 | Two presses of the Mouse Control key within this time latch hidden windows on or off; 0 turns the latch off. |
 | `ToggleKey` | None | Optional key that tags or untags the window under the cursor while you hold Alt. |
 

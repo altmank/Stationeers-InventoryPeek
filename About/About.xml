@@ -2,7 +2,7 @@
 <ModMetadata xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Name>Inventory Peek</Name>
   <Author>XCeled</Author>
-  <Version>1.1.0</Version>
+  <Version>1.2.0</Version>
   <Description>[h1]Keep your inventory open without it in the way[/h1]
 Mark the inventory windows you use most as hidable. They disappear while you play and come back the instant you hold [b]Alt[/b] to use the cursor, exactly where you left them. Leave everything open and still see the world.
 
@@ -13,7 +13,7 @@ Mark the inventory windows you use most as hidable. They disappear while you pla
 [*]While you play, a hidable window is invisible and clicks pass straight through it.
 [*]Hold [b]Alt[/b] and every hidden window shows at once, ready to use. It is the game's Mouse Control key, so if you rebind that, the mod follows. Other screens that free the cursor leave hidden windows hidden.
 [*][b]Double press Alt[/b] quickly to latch every hidden window on, so you can keep them in view while you play. Double press again to hide them.
-[*]The choice is per window: hiding your backpack's window does not hide another backpack's. It is remembered across sessions.
+[*]The choice is per window: hiding your backpack's window does not hide another backpack's. It is remembered across sessions, separately for each save.
 [*]A drag that starts while you hold Alt keeps the window up until you let go.
 [/list]
 
@@ -26,7 +26,7 @@ In the StationeersLaunchPad config editor, or the config file [i]net.xceled.stat
 [tr][td][b]HiddenOpacity[/b][/td][td]0[/td][td]How visible a hidden window stays: 0 is invisible, 0.2 leaves a faint outline.[/td][/tr]
 [tr][td][b]ToggleKey[/b][/td][td]none[/td][td]Optional key that toggles the window under the cursor while Alt is held, instead of the eye.[/td][/tr]
 [tr][td][b]DoublePressSeconds[/b][/td][td]0.3[/td][td]How quick a double press of Alt must be to latch windows on or off. 0 turns the latch off.[/td][/tr]
-[tr][td][b]HidableWindows[/b][/td][td]empty[/td][td]The windows you have marked. The eye button keeps it up to date.[/td][/tr]
+[tr][td][b]HidableWindows[/b][/td][td]empty[/td][td]The windows you have marked, one line per save. The eye button keeps it up to date.[/td][/tr]
 [/table]
 
 [hr][/hr]
