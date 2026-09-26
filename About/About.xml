@@ -41,7 +41,7 @@ Nothing is stored in your save, so you can disable or remove it at any time. Eve
 [*]The windows themselves are untouched: they stay open, docked or undocked, exactly as the game has them. Slot hotkeys, sort, dock and close all work as usual, hidden or not. OpaqueWindows only changes each window's background image, and puts it back when you turn it off.
 [*]A hidden docked window keeps its place in the dock, so the dock shows a gap where it is.
 [*]The game's own [b]`[/b] key is different: it closes every window, and you reopen each one by hand.
-[*]Client side only: nothing is sent over the network, so it is safe in multiplayer and only you need it.
+[*]Multiplayer: only you need it, not the host or anyone else. It changes your own windows and sends nothing, so it is safe in any mix of players and versions, and nobody else sees your hidden windows. Your choices are kept on your machine for each world you join and come back next time you join it.
 [/list]
 
 [hr][/hr]

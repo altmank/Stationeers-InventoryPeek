@@ -50,7 +50,20 @@ you hold Alt (the game's Mouse Control key). Keep every window open without it c
   rounded corners are unchanged). No game code writes that image, so it is set once when the setting turns on and put
   back when it (or `Enabled`) turns off; nothing is re-applied every frame. Slot buttons, the title bar and the rest
   of the UI keep the game's look; over a solid background they no longer show the world through.
-- Client-side UI only: nothing is sent over the network; safe in multiplayer.
+
+## Multiplayer
+
+Only the players who want it need the mod. The host does not need it, and players with and without it, or on
+different versions of it, can play together.
+
+- It changes your own inventory windows and nothing else. It sends nothing over the network, and the game never
+  shares a player's window layout, so nobody else sees your hidden windows, your eye buttons or `OpaqueWindows`.
+- A player without the mod sees nothing different at all.
+- Your tags live in your own config, not in the host's save. They are filed under the host's world id, which the
+  game hands every player who joins, and the items keep the same reference ids on every player's game, so your
+  choices come back each time you join the same world.
+- Every other setting belongs to each player too.
+- Worked out from the game's code rather than from a multiplayer session.
 
 ## Build
 
