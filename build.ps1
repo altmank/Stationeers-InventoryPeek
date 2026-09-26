@@ -59,7 +59,7 @@ New-Item -ItemType Directory -Path $package | Out-Null
 Copy-Item (Join-Path $root 'About') $package -Recurse
 Copy-Item $dll $package
 
-# Steam rejects workshop previews over 1 MB. No preview image yet: the mod is local only.
+# Steam rejects workshop previews over 1 MB.
 $thumbPath = Join-Path $package 'About\thumb.png'
 if ((Test-Path $thumbPath) -and (Get-Item $thumbPath).Length -gt 1MB) {
     Write-Warning "About\thumb.png is over 1 MB. Steam caps previews at 1 MB and the game will silently fall back to a blank image."
