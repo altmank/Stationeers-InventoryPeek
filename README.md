@@ -1,22 +1,24 @@
 # Inventory Peek
 
 A Stationeers mod: inventory windows you tag as hidable disappear while you play and come back the moment
-the cursor is free (hold Alt, the mouse-control key). Keep every window open without it covering the screen.
+you hold Alt (the game's Mouse Control key). Keep every window open without it covering the screen.
 
 ## Use
 
 - Click the **eye** on an inventory window's title bar. Bright eye: the window is hidable. Faint eye: always shown.
 - Play normally: hidable windows are hidden and let clicks through. Hold Alt: every window shows at once, where
   you left it, ready to use.
-- A drag that starts while the cursor is free keeps the window up until you let go of the mouse button.
+- A drag that starts while you hold Alt keeps the window up until you let go of the mouse button.
+- Double press Alt quickly to latch hidden windows on while you play; double press again to hide them.
 
 ## How it decides
 
 - **Tags are per window.** A window is tagged by the reference id of the one thing it shows, which the save keeps,
   so the choice survives sessions and each window is chosen on its own: tagging one backpack's window does not
   hide another backpack's. The list is the `HidableWindows` setting and can be edited by hand.
-- **"Cursor free"** is the game's own mouse-control state (`InputMouse.IsMouseControl`): true while the
-  mouse-control key is held and while a screen that unlocks the cursor is open.
+- **Peeking** is holding the game's Mouse Control key (`KeyMap.MouseControl`, Alt unless rebound), read the way
+  the game reads it (`MouseModeController.AltKeyDown`), so a rebind is followed. Screens that free the cursor on
+  their own (menus, the scoreboard) do not show hidden windows: a stuck scoreboard once kept them all visible.
 
 ## Settings (BepInEx config `net.xceled.stationeers.inventorypeek.cfg`)
 
@@ -25,7 +27,8 @@ the cursor is free (hold Alt, the mouse-control key). Keep every window open wit
 | `Enabled` | true | Off shows every window as the game does. |
 | `HiddenOpacity` | 0 | Opacity of a hidden window; 0.2 leaves a faint outline. |
 | `HidableWindows` | empty | Comma-separated reference ids of the things whose windows hide. The eye button edits it. |
-| `ToggleKey` | None | Optional key that tags or untags the window under the cursor while the cursor is free. |
+| `DoublePressSeconds` | 0.3 | Two presses of the Mouse Control key within this time latch hidden windows on or off; 0 turns the latch off. |
+| `ToggleKey` | None | Optional key that tags or untags the window under the cursor while you hold Alt. |
 
 ## How little it changes
 

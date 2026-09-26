@@ -10,8 +10,8 @@ using UnityEngine;
 namespace InventoryPeek;
 
 /// <summary>
-/// Inventory windows tagged hidable disappear while the cursor is locked and come back the moment it is free
-/// (holding the mouse-control key, Alt by default, or any screen that frees the cursor). The game's own window
+/// Inventory windows tagged hidable disappear while you play and come back while you hold the Mouse Control key
+/// (Alt unless rebound), or stay back while a quick double press has latched them on. The game's own window
 /// state is never touched: a hidden window is still open, docked or undocked where it was, and saves as it was.
 /// </summary>
 [BepInPlugin(pluginGuid, pluginName, pluginVersion)]
@@ -19,7 +19,7 @@ public class InventoryPeekPlugin : BaseUnityPlugin
 {
     public const string pluginGuid = "net.xceled.stationeers.inventorypeek";
     public const string pluginName = "InventoryPeek";
-    public const string pluginVersion = "1.0.0";
+    public const string pluginVersion = "1.1.0";
 
     private const char TagSeparator = ',';
 
@@ -29,6 +29,9 @@ public class InventoryPeekPlugin : BaseUnityPlugin
     private ConfigEntry<float> _hiddenOpacity;
     private ConfigEntry<string> _hidable;
     private ConfigEntry<KeyCode> _toggleKey;
+    private ConfigEntry<float> _doublePress;
+
+    private float _lastPress = float.NegativeInfinity;
 
     private readonly HashSet<string> _tags = new HashSet<string>(StringComparer.Ordinal);
 
@@ -36,11 +39,14 @@ public class InventoryPeekPlugin : BaseUnityPlugin
 
     internal float HiddenOpacity => Mathf.Clamp01(_hiddenOpacity.Value);
 
+    /// <summary>Hidden windows are held shown until the next double press.</summary>
+    internal bool Latched { get; private set; }
+
     private void Awake()
     {
         Instance = this;
         _enabled = Config.Bind("General", "Enabled", true,
-            "Hide tagged inventory windows while the cursor is locked. Off shows every window as the game does.");
+            "Hide tagged inventory windows until you hold the Mouse Control key. Off shows every window as the game does.");
         _hiddenOpacity = Config.Bind("General", "HiddenOpacity", 0f,
             new ConfigDescription("Opacity of a tagged window while hidden: 0 is invisible, 0.2 a faint outline.",
                 new AcceptableValueRange<float>(0f, 1f)));
@@ -49,7 +55,10 @@ public class InventoryPeekPlugin : BaseUnityPlugin
             "The eye button on a window's title bar adds or removes its thing here.");
         _toggleKey = Config.Bind("General", "ToggleKey", KeyCode.None,
             "Optional key that tags or untags the window under the cursor, as an alternative to the eye button. " +
-            "Only acts while the cursor is free.");
+            "Only acts while you hold the Mouse Control key.");
+        _doublePress = Config.Bind("General", "DoublePressSeconds", 0.3f,
+            new ConfigDescription("Two presses of the Mouse Control key within this many seconds latch hidden windows " +
+                "shown until the next double press. 0 turns the latch off.", new AcceptableValueRange<float>(0f, 1f)));
         LoadTags();
         _hidable.SettingChanged += (_, _) => LoadTags();
 
@@ -59,7 +68,8 @@ public class InventoryPeekPlugin : BaseUnityPlugin
 
     private void Update()
     {
-        if (_toggleKey.Value == KeyCode.None || !Input.GetKeyDown(_toggleKey.Value) || !PeekState.CursorFree)
+        WatchDoublePress();
+        if (_toggleKey.Value == KeyCode.None || !Input.GetKeyDown(_toggleKey.Value) || !PeekState.PeekKeyHeld)
         {
             return;
         }
@@ -69,6 +79,25 @@ public class InventoryPeekPlugin : BaseUnityPlugin
         {
             Toggle(PeekState.KeyOf(window));
         }
+    }
+
+    // A double press of the Mouse Control key flips the latch; the second press does not count toward another.
+    private void WatchDoublePress()
+    {
+        if (!KeyManager.GetButtonDown(KeyMap.MouseControl))
+        {
+            return;
+        }
+
+        float now = Time.unscaledTime;
+        if (_doublePress.Value > 0f && now - _lastPress <= _doublePress.Value)
+        {
+            Latched = !Latched;
+            _lastPress = float.NegativeInfinity;
+            return;
+        }
+
+        _lastPress = now;
     }
 
     internal bool IsHidable(string key) => key != null && _tags.Contains(key);
@@ -121,8 +150,12 @@ internal static class InventoryWindowPatch
 /// <summary>Read-only views of game state the mod decides on.</summary>
 internal static class PeekState
 {
-    /// <summary>The cursor is free: the mouse-control key is held or a screen unlocked it (InputMouse.SetMouseControl).</summary>
-    internal static bool CursorFree => InputMouse.IsMouseControl;
+    /// <summary>
+    /// The mouse-control key (Alt unless rebound) is held: MouseModeController.AltKeyDown, the game's own read of
+    /// KeyMap.MouseControl. Not the free-cursor state, which any open screen can hold (a stuck scoreboard kept every
+    /// window shown), and hidden windows should only show when the player asks.
+    /// </summary>
+    internal static bool PeekKeyHeld => Assets.Scripts.MouseModeController.AltKeyDown;
 
     /// <summary>
     /// A window is tagged by the one thing it shows, its ReferenceId, which the save keeps: each window is chosen on

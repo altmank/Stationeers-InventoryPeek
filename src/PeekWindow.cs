@@ -58,10 +58,10 @@ internal sealed class PeekWindow : MonoBehaviour
             _eye.color = tagged ? TaggedColour : UntaggedColour;
         }
 
-        bool cursorFree = PeekState.CursorFree;
-        // A drag that started with the cursor free keeps the window up until the button is let go.
-        _dragging = !_hidden && Input.GetMouseButton(0) && (cursorFree || _dragging);
-        bool hide = plugin.Enabled && tagged && !cursorFree && !_dragging;
+        bool peek = PeekState.PeekKeyHeld || plugin.Latched;
+        // A drag that started while peeking keeps the window up until the button is let go.
+        _dragging = !_hidden && Input.GetMouseButton(0) && (peek || _dragging);
+        bool hide = plugin.Enabled && tagged && !peek && !_dragging;
         if (hide)
         {
             Hide(plugin.HiddenOpacity);

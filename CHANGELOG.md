@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.0
+
+- Hidden windows show only while you hold the Mouse Control key (Alt unless rebound), not whenever the cursor is
+  free. Any open screen can free the cursor, and a stuck one (the scoreboard) kept every window shown.
+- Double press Alt to latch hidden windows on; double press again to hide them (`DoublePressSeconds`, 0 turns it off).
+
 ## 1.0.0
 
 - First release. Same behaviour as 0.2.0.
