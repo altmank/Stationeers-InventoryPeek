@@ -2,7 +2,7 @@
 <ModMetadata xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Name>Inventory Peek</Name>
   <Author>XCeled</Author>
-  <Version>1.2.0</Version>
+  <Version>1.3.0</Version>
   <Description>[h1]Keep your inventory open without it in the way[/h1]
 Mark the inventory windows you use most as hidable. They disappear while you play and come back the instant you hold [b]Alt[/b] to use the cursor, exactly where you left them. Leave everything open and still see the world.
 
@@ -15,6 +15,7 @@ Mark the inventory windows you use most as hidable. They disappear while you pla
 [*][b]Double press Alt[/b] quickly to latch every hidden window on, so you can keep them in view while you play. Double press again to hide them.
 [*]The choice is per window: hiding your backpack's window does not hide another backpack's. It is remembered across sessions, separately for each save.
 [*]A drag that starts while you hold Alt keeps the window up until you let go.
+[*]Find the game's inventory windows hard to read? Turn on [b]OpaqueWindows[/b] and every inventory window gets a solid background instead of the see-through one.
 [/list]
 
 [hr][/hr]
@@ -26,17 +27,18 @@ In the StationeersLaunchPad config editor, or the config file [i]net.xceled.stat
 [tr][td][b]HiddenOpacity[/b][/td][td]0[/td][td]How visible a hidden window stays: 0 is invisible, 0.2 leaves a faint outline.[/td][/tr]
 [tr][td][b]ToggleKey[/b][/td][td]none[/td][td]Optional key that toggles the window under the cursor while Alt is held, instead of the eye.[/td][/tr]
 [tr][td][b]DoublePressSeconds[/b][/td][td]0.3[/td][td]How quick a double press of Alt must be to latch windows on or off. 0 turns the latch off.[/td][/tr]
+[tr][td][b]OpaqueWindows[/b][/td][td]off[/td][td]Gives every inventory window, hidable or not, a solid background instead of the game's see-through one. Hidden windows still hide; other UI keeps the game's look.[/td][/tr]
 [tr][td][b]HidableWindows[/b][/td][td]empty[/td][td]The windows you have marked, one line per save. The eye button keeps it up to date.[/td][/tr]
 [/table]
 
 [hr][/hr]
 [h2]Removing it[/h2]
-Nothing is stored in your save, so you can disable or remove it at any time. Every window simply shows again.
+Nothing is stored in your save, so you can disable or remove it at any time. Every window simply shows again, with the game's own look.
 
 [hr][/hr]
 [h2]Good to know[/h2]
 [list]
-[*]The windows themselves are untouched: they stay open, docked or undocked, exactly as the game has them. Slot hotkeys, sort, dock and close all work as usual, hidden or not.
+[*]The windows themselves are untouched: they stay open, docked or undocked, exactly as the game has them. Slot hotkeys, sort, dock and close all work as usual, hidden or not. OpaqueWindows only changes each window's background image, and puts it back when you turn it off.
 [*]A hidden docked window keeps its place in the dock, so the dock shows a gap where it is.
 [*]The game's own [b]`[/b] key is different: it closes every window, and you reopen each one by hand.
 [*]Client side only: nothing is sent over the network, so it is safe in multiplayer and only you need it.

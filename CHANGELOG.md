@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.0
+
+- `OpaqueWindows` (off by default): every inventory window, hidable or not, gets a solid background instead of the
+  game's see-through one, which is hard to read. The game draws the background at colour alpha 0.75 with a sprite
+  whose inside is alpha 0.75 as well; the mod raises the colour to 1 and uses a copy of the sprite with an opaque
+  inside, set once and restored when the setting or `Enabled` turns off. Hidden windows still hide. Other UI is
+  untouched. README and the Workshop page describe it.
+
 ## 1.2.0
 
 - Tags are kept per save. Reference ids only mean something inside one save, so a window tagged in one save could

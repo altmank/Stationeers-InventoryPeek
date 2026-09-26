@@ -10,6 +10,8 @@ you hold Alt (the game's Mouse Control key). Keep every window open without it c
   you left it, ready to use.
 - A drag that starts while you hold Alt keeps the window up until you let go of the mouse button.
 - Double press Alt quickly to latch hidden windows on while you play; double press again to hide them.
+- The game draws inventory windows see-through. Turn on `OpaqueWindows` to give every inventory window a solid
+  background, so a shown window is easy to read.
 
 ## How it decides
 
@@ -32,6 +34,7 @@ you hold Alt (the game's Mouse Control key). Keep every window open without it c
 | `[HidableWindows]` `<world id>` | empty | Per world: comma-separated reference ids of the things whose windows hide. The eye button edits it. |
 | `HidableWindows` (General) | empty | Tags from 1.1 and earlier; moved into the first world loaded, then emptied. |
 | `DoublePressSeconds` | 0.3 | Two presses of the Mouse Control key within this time latch hidden windows on or off; 0 turns the latch off. |
+| `OpaqueWindows` | false | Every inventory window, hidable or not, gets a solid background instead of the game's see-through one. Hidden windows still hide; other UI is untouched. |
 | `ToggleKey` | None | Optional key that tags or untags the window under the cursor while you hold Alt. |
 
 ## How little it changes
@@ -41,6 +44,12 @@ you hold Alt (the game's Mouse Control key). Keep every window open without it c
   canvas, layout, open/closed state, docking and saved window state are never touched, so turning the mod off
   (or removing it) leaves every window exactly as the game has it.
 - A docked window keeps its place in the dock while hidden, so the dock shows a gap there.
+- `OpaqueWindows` changes one thing the game owns: the window's background image. The prefab gives it colour alpha
+  0.75 and a sprite whose inside is alpha 0.75 too, so about 56% of the window is the window and the rest is the world.
+  The mod raises the colour alpha to 1 and swaps in a copy of the sprite with its inside made opaque (the frame and
+  rounded corners are unchanged). No game code writes that image, so it is set once when the setting turns on and put
+  back when it (or `Enabled`) turns off; nothing is re-applied every frame. Slot buttons, the title bar and the rest
+  of the UI keep the game's look; over a solid background they no longer show the world through.
 - Client-side UI only: nothing is sent over the network; safe in multiplayer.
 
 ## Build

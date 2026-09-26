@@ -6,8 +6,8 @@ namespace InventoryPeek;
 
 /// <summary>
 /// Lives on one inventory window. Hides it through its own CanvasGroup (alpha and raycasts only), so the game's
-/// canvas, layout and open/closed state stay exactly as the game left them, and adds the eye button that tags the
-/// window hidable.
+/// canvas, layout and open/closed state stay exactly as the game left them, adds the eye button that tags the
+/// window hidable, and makes its background solid when OpaqueWindows is on.
 /// </summary>
 internal sealed class PeekWindow : MonoBehaviour
 {
@@ -19,6 +19,7 @@ internal sealed class PeekWindow : MonoBehaviour
     private InventoryWindow _window;
     private CanvasGroup _group;
     private Image _eye;
+    private OpaqueBackground _background;
     private bool _hidden;
     private bool _dragging;
 
@@ -32,11 +33,13 @@ internal sealed class PeekWindow : MonoBehaviour
         }
 
         _eye = EyeButton.Create(_window, OnEyeClicked);
+        _background = new OpaqueBackground(GetComponent<Image>());
     }
 
     private void OnDestroy()
     {
         Show();
+        _background?.Restore();
     }
 
     private void OnEyeClicked()
@@ -51,6 +54,8 @@ internal sealed class PeekWindow : MonoBehaviour
         {
             return;
         }
+
+        FollowOpaqueSetting(plugin.Enabled && plugin.OpaqueWindows);
 
         bool tagged = plugin.IsHidable(PeekState.KeyOf(_window));
         if (_eye != null)
@@ -69,6 +74,24 @@ internal sealed class PeekWindow : MonoBehaviour
         else if (_hidden)
         {
             Show();
+        }
+    }
+
+    // Applied or restored only when the setting changes, never re-applied while it holds.
+    private void FollowOpaqueSetting(bool opaque)
+    {
+        if (opaque == _background.Applied)
+        {
+            return;
+        }
+
+        if (opaque)
+        {
+            _background.Apply();
+        }
+        else
+        {
+            _background.Restore();
         }
     }
 

@@ -19,7 +19,7 @@ public class InventoryPeekPlugin : BaseUnityPlugin
 {
     public const string pluginGuid = "net.xceled.stationeers.inventorypeek";
     public const string pluginName = "InventoryPeek";
-    public const string pluginVersion = "1.2.0";
+    public const string pluginVersion = "1.3.0";
 
     private const char TagSeparator = ',';
     private const string WorldsSection = "HidableWindows";
@@ -31,6 +31,7 @@ public class InventoryPeekPlugin : BaseUnityPlugin
     private ConfigEntry<string> _hidable;
     private ConfigEntry<KeyCode> _toggleKey;
     private ConfigEntry<float> _doublePress;
+    private ConfigEntry<bool> _opaqueWindows;
 
     private float _lastPress = float.NegativeInfinity;
 
@@ -46,6 +47,8 @@ public class InventoryPeekPlugin : BaseUnityPlugin
     internal bool Enabled => _enabled.Value;
 
     internal float HiddenOpacity => Mathf.Clamp01(_hiddenOpacity.Value);
+
+    internal bool OpaqueWindows => _opaqueWindows.Value;
 
     /// <summary>Hidden windows are held shown until the next double press.</summary>
     internal bool Latched { get; private set; }
@@ -67,6 +70,9 @@ public class InventoryPeekPlugin : BaseUnityPlugin
         _doublePress = Config.Bind("General", "DoublePressSeconds", 0.3f,
             new ConfigDescription("Two presses of the Mouse Control key within this many seconds latch hidden windows " +
                 "shown until the next double press. 0 turns the latch off.", new AcceptableValueRange<float>(0f, 1f)));
+        _opaqueWindows = Config.Bind("General", "OpaqueWindows", false,
+            "Give every inventory window a solid background instead of the game's see-through one, hidable or not. " +
+            "Hidden windows still hide. Other UI is left as the game draws it.");
 
         new Harmony(pluginGuid).PatchAll(typeof(InventoryWindowPatch));
         Logger.LogInfo($"{pluginName} {pluginVersion} loaded.");
@@ -105,6 +111,8 @@ public class InventoryPeekPlugin : BaseUnityPlugin
 
         _lastPress = now;
     }
+
+    internal void LogWarning(string message) => Logger.LogWarning(message);
 
     internal bool IsHidable(string key)
     {
