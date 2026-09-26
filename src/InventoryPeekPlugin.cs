@@ -19,7 +19,7 @@ public class InventoryPeekPlugin : BaseUnityPlugin
 {
     public const string pluginGuid = "net.xceled.stationeers.inventorypeek";
     public const string pluginName = "InventoryPeek";
-    public const string pluginVersion = "0.2.0";
+    public const string pluginVersion = "1.0.0";
 
     private const char TagSeparator = ',';
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0
+
+- First release. Same behaviour as 0.2.0.
+
 ## 0.2.0
 
 - Tags are per window (the reference id of the thing it shows), not per kind of item. Tags saved by 0.1.0 were
