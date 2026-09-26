@@ -19,7 +19,7 @@ public class InventoryPeekPlugin : BaseUnityPlugin
 {
     public const string pluginGuid = "net.xceled.stationeers.inventorypeek";
     public const string pluginName = "InventoryPeek";
-    public const string pluginVersion = "0.1.0";
+    public const string pluginVersion = "0.2.0";
 
     private const char TagSeparator = ',';
 
@@ -45,7 +45,7 @@ public class InventoryPeekPlugin : BaseUnityPlugin
             new ConfigDescription("Opacity of a tagged window while hidden: 0 is invisible, 0.2 a faint outline.",
                 new AcceptableValueRange<float>(0f, 1f)));
         _hidable = Config.Bind("General", "HidableWindows", string.Empty,
-            "Comma-separated prefab names of the things whose windows hide, e.g. ItemHardSuit,ItemHardBackpack. " +
+            "Comma-separated reference ids of the things whose windows hide, one per window. " +
             "The eye button on a window's title bar adds or removes its thing here.");
         _toggleKey = Config.Bind("General", "ToggleKey", KeyCode.None,
             "Optional key that tags or untags the window under the cursor, as an alternative to the eye button. " +
@@ -54,7 +54,7 @@ public class InventoryPeekPlugin : BaseUnityPlugin
         _hidable.SettingChanged += (_, _) => LoadTags();
 
         new Harmony(pluginGuid).PatchAll(typeof(InventoryWindowPatch));
-        Logger.LogInfo($"{pluginName} {pluginVersion} loaded; {_tags.Count} hidable window kind(s).");
+        Logger.LogInfo($"{pluginName} {pluginVersion} loaded; {_tags.Count} hidable window(s).");
     }
 
     private void Update()
@@ -124,7 +124,10 @@ internal static class PeekState
     /// <summary>The cursor is free: the mouse-control key is held or a screen unlocked it (InputMouse.SetMouseControl).</summary>
     internal static bool CursorFree => InputMouse.IsMouseControl;
 
-    /// <summary>A window is tagged by the kind of thing it shows, so a new suit of the same type stays hidable.</summary>
+    /// <summary>
+    /// A window is tagged by the one thing it shows, its ReferenceId, which the save keeps: each window is chosen on
+    /// its own, and a second backpack of the same type is not hidden because the first one is.
+    /// </summary>
     internal static string KeyOf(InventoryWindow window)
     {
         if (window == null || window.ParentSlot == null)
@@ -133,6 +136,6 @@ internal static class PeekState
         }
 
         DynamicThing occupant = window.ParentSlot.Get<DynamicThing>();
-        return occupant != null ? occupant.PrefabName : null;
+        return occupant != null ? occupant.ReferenceId.ToString(System.Globalization.CultureInfo.InvariantCulture) : null;
     }
 }

@@ -6,7 +6,7 @@
     <RootNamespace>InventoryPeek</RootNamespace>
     <LangVersion>12.0</LangVersion>
     <Nullable>disable</Nullable>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>

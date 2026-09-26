@@ -12,9 +12,9 @@ the cursor is free (hold Alt, the mouse-control key). Keep every window open wit
 
 ## How it decides
 
-- **Tags are per kind of item.** A window is tagged by the prefab name of the thing it shows (`ItemHardSuit`,
-  `ItemHardBackpack`, `ItemMiningBelt`...), so the choice survives sessions and swapping to another item of the
-  same kind. The list is the `HidableWindows` setting and can be edited by hand.
+- **Tags are per window.** A window is tagged by the reference id of the one thing it shows, which the save keeps,
+  so the choice survives sessions and each window is chosen on its own: tagging one backpack's window does not
+  hide another backpack's. The list is the `HidableWindows` setting and can be edited by hand.
 - **"Cursor free"** is the game's own mouse-control state (`InputMouse.IsMouseControl`): true while the
   mouse-control key is held and while a screen that unlocks the cursor is open.
 
@@ -24,7 +24,7 @@ the cursor is free (hold Alt, the mouse-control key). Keep every window open wit
 | --- | --- | --- |
 | `Enabled` | true | Off shows every window as the game does. |
 | `HiddenOpacity` | 0 | Opacity of a hidden window; 0.2 leaves a faint outline. |
-| `HidableWindows` | empty | Comma-separated prefab names of hidable window kinds. The eye button edits it. |
+| `HidableWindows` | empty | Comma-separated reference ids of the things whose windows hide. The eye button edits it. |
 | `ToggleKey` | None | Optional key that tags or untags the window under the cursor while the cursor is free. |
 
 ## How little it changes
