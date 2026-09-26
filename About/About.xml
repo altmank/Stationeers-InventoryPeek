@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetadata xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>Inventory Peek</Name>
+  <Author>XCeled</Author>
+  <Version>0.1.0</Version>
+  <Description>Keep every inventory window open without it covering the screen.
+
+Click the eye on an inventory window's title bar to make that kind of window hidable. A hidable window disappears while you play and comes back the moment you hold Alt (the mouse-control key) to use the cursor, exactly where you left it. Click the eye again to keep it always visible.
+
+The choice is remembered per kind of item (your hardsuit, your backpack, your mining belt), across sessions and when you swap to another item of the same kind.
+
+Nothing about the windows themselves changes: they stay open, docked or undocked, as the game has them. Client side only; safe in multiplayer.
+
+You need to install StationeersLaunchPad for this mod to work:
+https://github.com/StationeersLaunchPad/StationeersLaunchPad
+  </Description>
+  <Tags />
+</ModMetadata>

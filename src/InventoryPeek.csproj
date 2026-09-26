@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <AssemblyName>InventoryPeek</AssemblyName>
+    <RootNamespace>InventoryPeek</RootNamespace>
+    <LangVersion>12.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <Version>0.1.0</Version>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <!-- Override with -p:GameDir=... or the STATIONEERS_DIR environment variable. -->
+  <PropertyGroup>
+    <GameDir Condition="'$(GameDir)' == '' And '$(STATIONEERS_DIR)' != ''">$(STATIONEERS_DIR)</GameDir>
+    <GameDir Condition="'$(GameDir)' == ''">C:\Program Files (x86)\Steam\steamapps\common\Stationeers</GameDir>
+    <ManagedDir>$(GameDir)\rocketstation_Data\Managed</ManagedDir>
+    <BepInExDir>$(GameDir)\BepInEx\core</BepInExDir>
+  </PropertyGroup>
+
+  <Target Name="CheckGameDir" BeforeTargets="BeforeBuild">
+    <Error Condition="!Exists('$(ManagedDir)\Assembly-CSharp.dll')"
+           Text="Assembly-CSharp.dll not found under '$(ManagedDir)'. Set GameDir or STATIONEERS_DIR to the Stationeers install." />
+    <Error Condition="!Exists('$(BepInExDir)\BepInEx.dll')"
+           Text="BepInEx.dll not found under '$(BepInExDir)'. Install BepInEx and StationeersLaunchPad first." />
+  </Target>
+
+  <!-- Reference every shipped managed assembly: Assembly-CSharp drags in the Unity modules transitively. -->
+  <ItemGroup>
+    <Reference Include="$(ManagedDir)\*.dll">
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="$(BepInExDir)\BepInEx.dll">
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="$(BepInExDir)\0Harmony.dll">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>

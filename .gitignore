@@ -1,0 +1,12 @@
+# build output
+bin/
+obj/
+package/
+
+# editor / tooling
+.vs/
+*.user
+*.suo
+
+# decompiled reference material, kept outside the repo
+reference/
