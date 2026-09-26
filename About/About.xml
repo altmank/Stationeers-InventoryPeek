@@ -17,28 +17,36 @@ Mark the inventory windows you use most as hidable. They disappear while you pla
 [/list]
 
 [hr][/hr]
-[h2]What it does not change[/h2]
-The windows stay open, docked or undocked, exactly as the game has them. Nothing is closed, moved or re-sorted, and slot hotkeys, sort, dock and close all work as usual. A hidden docked window keeps its place in the dock.
-
-The game's own [b]`[/b] key is different: it closes every window, and you reopen each one by hand.
-
-Client side only: nothing is sent over the network, so it is safe in multiplayer.
-
-[hr][/hr]
 [h2]Settings[/h2]
-In the mod's config ([i]net.xceled.stationeers.inventorypeek.cfg[/i]):
+In the StationeersLaunchPad config editor, or the config file [i]net.xceled.stationeers.inventorypeek.cfg[/i]:
 [table]
 [tr][th]Setting[/th][th]Default[/th][th]What it does[/th][/tr]
-[tr][td]Enabled[/td][td]on[/td][td]Off shows every window as the game does.[/td][/tr]
-[tr][td]HiddenOpacity[/td][td]0[/td][td]How visible a hidden window stays: 0 is invisible, 0.2 leaves a faint outline.[/td][/tr]
-[tr][td]ToggleKey[/td][td]none[/td][td]Optional key that toggles the window under the cursor while Alt is held, instead of the eye.[/td][/tr]
-[tr][td]HidableWindows[/td][td]empty[/td][td]The windows you have marked. The eye button keeps it up to date.[/td][/tr]
+[tr][td][b]Enabled[/b][/td][td]on[/td][td]Off shows every window as the game does.[/td][/tr]
+[tr][td][b]HiddenOpacity[/b][/td][td]0[/td][td]How visible a hidden window stays: 0 is invisible, 0.2 leaves a faint outline.[/td][/tr]
+[tr][td][b]ToggleKey[/b][/td][td]none[/td][td]Optional key that toggles the window under the cursor while Alt is held, instead of the eye.[/td][/tr]
+[tr][td][b]HidableWindows[/b][/td][td]empty[/td][td]The windows you have marked. The eye button keeps it up to date.[/td][/tr]
 [/table]
 
 [hr][/hr]
-You need [url=https://github.com/StationeersLaunchPad/StationeersLaunchPad]StationeersLaunchPad[/url] for this mod to work.
+[h2]Removing it[/h2]
+Nothing is stored in your save, so you can disable or remove it at any time. Every window simply shows again.
 
-Source code: [url=https://github.com/altmank/Stationeers-InventoryPeek]github.com/altmank/Stationeers-InventoryPeek[/url]
+[hr][/hr]
+[h2]Good to know[/h2]
+[list]
+[*]The windows themselves are untouched: they stay open, docked or undocked, exactly as the game has them. Slot hotkeys, sort, dock and close all work as usual, hidden or not.
+[*]A hidden docked window keeps its place in the dock, so the dock shows a gap where it is.
+[*]The game's own [b]`[/b] key is different: it closes every window, and you reopen each one by hand.
+[*]Client side only: nothing is sent over the network, so it is safe in multiplayer and only you need it.
+[/list]
+
+[hr][/hr]
+[b]Requires[/b] [url=https://github.com/StationeersLaunchPad/StationeersLaunchPad]StationeersLaunchPad[/url]
+
+[b]Source, issues and the full readme:[/b] [url=https://github.com/altmank/Stationeers-InventoryPeek]github.com/altmank/Stationeers-InventoryPeek[/url]
+
+Developed with the use of generative AI, and tokens aren't free. Buy me a coffee:
+[url=https://ko-fi.com/xceled]ko-fi.com/xceled[/url]
   </Description>
   <Tags />
 </ModMetadata>
