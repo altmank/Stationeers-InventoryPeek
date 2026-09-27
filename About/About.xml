@@ -2,7 +2,7 @@
 <ModMetadata xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Name>Inventory Peek</Name>
   <Author>XCeled</Author>
-  <Version>1.3.0</Version>
+  <Version>1.3.1</Version>
   <Description>[h1]Keep your inventory open without it in the way[/h1]
 Mark the inventory windows you use most as hidable. They disappear while you play and come back the instant you hold [b]Alt[/b] to use the cursor, exactly where you left them. Leave everything open and still see the world.
 

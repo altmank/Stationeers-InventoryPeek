@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.3.1
+
+- **The eye button now looks like the game's own title-bar buttons.** It used to be a bare white outline, smaller
+  than the sort, dock and close buttons, with no background and no reaction to the mouse. It now sits on the same
+  grey button tile, the same size, with the eye drawn in the same grey as their icons and the same drop shadow. Under
+  the pointer it switches to the game's dark highlighted tile with a white eye and grows slightly, and it dims while
+  clicked, as the buttons beside it do. Bright eye still means hidable, faint eye always shown.
+- **The eye has a tooltip**, like the buttons beside it, saying whether the window hides and what a click does.
+
 ## 1.3.0
 
 - `OpaqueWindows` (off by default): every inventory window, hidable or not, gets a solid background instead of the

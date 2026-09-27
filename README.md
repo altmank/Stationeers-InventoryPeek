@@ -5,7 +5,8 @@ you hold Alt (the game's Mouse Control key). Keep every window open without it c
 
 ## Use
 
-- Click the **eye** on an inventory window's title bar. Bright eye: the window is hidable. Faint eye: always shown.
+- Click the **eye** on an inventory window's title bar, beside the game's sort, dock and close buttons and drawn
+  like them. Bright eye: the window is hidable. Faint eye: always shown. Hover it for a reminder.
 - Play normally: hidable windows are hidden and let clicks through. Hold Alt: every window shows at once, where
   you left it, ready to use.
 - A drag that starts while you hold Alt keeps the window up until you let go of the mouse button.
@@ -50,6 +51,9 @@ you hold Alt (the game's Mouse Control key). Keep every window open without it c
   rounded corners are unchanged). No game code writes that image, so it is set once when the setting turns on and put
   back when it (or `Enabled`) turns off; nothing is re-applied every frame. Slot buttons, the title bar and the rest
   of the UI keep the game's look; over a solid background they no longer show the world through.
+- The eye button is a copy of the window's own sort button with the game's scripts and animator taken off. Its
+  pictures are made once from the sort button's two sprites (at rest and under the pointer): the button's frame is
+  kept, the arrows are replaced with the eye, and it grows and dims under the pointer and click as the game's buttons do.
 
 ## Multiplayer
 

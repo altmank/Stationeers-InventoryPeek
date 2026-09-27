@@ -97,7 +97,7 @@ internal sealed class OpaqueBackground
             Texture2D pixels;
             try
             {
-                pixels = ReadPixels(sprite.texture, sprite.textureRect);
+                pixels = GpuPixels.Read(sprite.texture, sprite.textureRect);
             }
             catch (System.Exception e)
             {
@@ -116,31 +116,6 @@ internal sealed class OpaqueBackground
                 sprite.pixelsPerUnit, 0, SpriteMeshType.FullRect, sprite.border);
             opaque.name = sprite.name + " (opaque)";
             return opaque;
-        }
-
-        private static Texture2D ReadPixels(Texture2D source, Rect area)
-        {
-            RenderTexture target = RenderTexture.GetTemporary(source.width, source.height, 0,
-                RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB);
-            RenderTexture previous = RenderTexture.active;
-            try
-            {
-                Graphics.Blit(source, target);
-                RenderTexture.active = target;
-                Texture2D pixels = new Texture2D((int)area.width, (int)area.height, TextureFormat.RGBA32, false)
-                {
-                    filterMode = source.filterMode,
-                    wrapMode = TextureWrapMode.Clamp,
-                };
-                pixels.ReadPixels(area, 0, 0);
-                pixels.Apply();
-                return pixels;
-            }
-            finally
-            {
-                RenderTexture.active = previous;
-                RenderTexture.ReleaseTemporary(target);
-            }
         }
 
         /// <summary>Flood-fills the see-through inside to opaque. False when the centre is not see-through.</summary>
